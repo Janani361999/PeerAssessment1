@@ -1,0 +1,89 @@
+Assignment#1
+dataset <- read.csv("activity.csv")
+summary(dataset)
+
+Pre-process of dataset -- spliting it into days
+day <- array(0,c(3514,5))
+
+c=1
+i=1
+while(i < dim(day)[1])
+{
+for(j in 1:5)
+{
+day[c,j] = dataset$steps[i]
+i=i+1
+}
+c=c+1
+}
+
+Histogram for mean of steps per day (with NAs replaces with zero)
+i=1
+while(i < dim(day)[1])
+{
+for(j in 1:5)
+{
+if(is.na(day[i,j]))
+day[i,j]=0
+}
+i=i+1
+}
+
+while(i < dim(day)[1])
+{
+day_mean[i] = mean(day[i,])
+i=i+1
+}
+hist(day_mean)
+
+Histogram for mean of steps per day (with NAs replaces with mean steps of a day)
+day <- array(0,c(3514,5))
+
+c=1
+i=1
+while(i < dim(day)[1])
+{
+for(j in 1:5)
+{
+day[c,j] = dataset$steps[i]
+i=i+1
+}
+c=c+1
+}
+
+day_mean_post <- array(0,c(3514,1))
+i=1
+while(i < dim(day)[1])
+{
+day_mean_post[i] = mean(day[i,])
+for(j in 1:5)
+{
+if(is.na(day[i,j]))
+day_mean_post[i] -> day[i,j]
+}
+i=i+1
+}
+
+total of steps taken per days
+sum_steps_day <- array(0,c(3514,1))
+i=1
+sum_steps_day = apply(day,1,sum)
+
+hist(sum_steps_day)
+
+mean and median steps of days
+day_mean <- array(0,c(3514,1))
+
+mean_day = mean(sum_steps_day)
+median_day = median(sum_steps_day)
+
+Plot the times series for the average of steps each day
+myts = ts(day_mean)
+plot(myts)
+
+Plot the times series for the all data (5-minutes interval)
+myts = ts(dataset$steps)
+plot(myts)
+
+Maximum step across all data
+mx = max(dataset)
